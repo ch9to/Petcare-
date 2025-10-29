@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Controle de Vacinas</title>
+  <style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f5f5f5;
+        margin: 0;
+        padding: 0;
+    }
+
+    .header {
+        background-color: #2e7d32;
+        color: white;
+        padding: 20px 0;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .container {
+        max-width: 1000px;
+        margin: 30px auto;
+    }
+
+    h1 {
+        color: #2e7d32;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .pet-section {
+        background-color: white;
+        border-radius: 10px;
+        padding: 25px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        border-top: 5px solid #81c784;
+    }
+
+    .pet-title {
+        color: #2e7d32;
+        margin-top: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .pet-title i {
+        font-size: 1.5rem;
+    }
+
+    .vaccine-card {
+        background-color: #e8f5e9;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 15px 0;
+        border-left: 4px solid #2e7d32;
+    }
+
+    .vaccine-card h3 {
+        color: #2e7d32;
+        margin-top: 0;
+    }
+
+    .vaccine-card p {
+        margin: 8px 0;
+        color: #333;
+    }
+
+    .vaccine-card strong {
+        color: #2e7d32;
+    }
+
+    .no-vaccines {
+        color: #666;
+        font-style: italic;
+        text-align: center;
+        padding: 20px;
+        background-color: #f1f8e9;
+        border-radius: 5px;
+    }
+
+    .add-vaccine {
+        margin-top: 25px;
+    }
+
+    .add-vaccine form {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .add-vaccine select,
+    .add-vaccine input[type="date"] {
+        padding: 12px;
+        border: 2px solid #c8e6c9;
+        border-radius: 5px;
+        font-size: 1rem;
+        flex: 1;
+        min-width: 200px;
+    }
+
+    .add-vaccine button {
+        background-color: #2e7d32;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background-color 0.3s;
+        flex: 0 0 auto;
+    }
+
+    .add-vaccine button:hover {
+        background-color: #1b5e20;
+    }
+
+    .status-completa {
+        color: #2e7d32;
+        font-weight: bold;
+    }
+
+    .status-pendente {
+        color: #e53935;
+        font-weight: bold;
+    }
+
+    .register-pet {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    .register-pet a {
+        color: #2e7d32;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .register-pet a:hover {
+        text-decoration: underline;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+<div class="header">
+  <div class="container">
+    <h1>Controle de Vacinas</h1>
+  </div>
+</div>
+
+<div class="container">
+  <div th:if="${pets == null or pets.empty}" class="register-pet">
+    <p>Nenhum pet cadastrado ou não foi possível carregar os dados.</p>
+    <a th:href="@{/pets(email=${usuario.email})}">
+      <i class="fas fa-plus-circle"></i> Cadastre seu primeiro pet
+    </a>
+  </div>
+
+  <div th:each="pet : ${pets}" class="pet-section">
+    <h2 class="pet-title">
+      <i class="fas fa-paw"></i>
+      <span th:text="${pet.nome} + ' (' + ${pet.especie} + ')'"></span>
+    </h2>
+
+    <div th:if="${pet.vacinas == null or pet.vacinas.empty}" class="no-vaccines">
+      Nenhuma vacina registrada para este pet.
+    </div>
+
+    <div th:each="vacina : ${pet.vacinas}" class="vaccine-card">
+      <h3 th:text="${vacina.nome}"></h3>
+      <p><strong><i class="far fa-calendar-alt"></i> Data de Aplicação:</strong>
+        <span th:text="${#temporals.format(vacina.dataAplicacao, 'dd/MM/yyyy')}"></span>
+      </p>
+      <p th:if="${vacina.proximaDose != null}"><strong><i class="far fa-calendar-check"></i> Próxima Dose:</strong>
+        <span th:text="${#temporals.format(vacina.proximaDose, 'dd/MM/yyyy')}"></span>
+      </p>
+      <p><strong><i class="fas fa-info-circle"></i> Status:</strong>
+        <span th:text="${vacina.completa} ? 'Completa' : 'Pendente'"
+              th:class="${vacina.completa} ? 'status-completa' : 'status-pendente'"></span>
+      </p>
+    </div>
+
+    <div class="add-vaccine">
+      <form th:action="@{/vacinas/registrar}" method="post">
+        <input type="hidden" name="email" th:value="${usuario.email}">
+        <input type="hidden" name="petId" th:value="${pet.id}">
+
+        <select name="nomeVacina" required>
+          <option value="">Selecione a vacina...</option>
+          <option value="V8/V10">V8/V10 (Cães)</option>
+          <option value="Antirrábica">Antirrábica</option>
+          <option value="V4/V5">V4/V5 (Gatos)</option>
+          <option value="Gripe Aviária">Gripe Aviária (Pássaros)</option>
+        </select>
+
+        <input type="date" name="dataAplicacao" required>
+
+        <button type="submit">
+          <i class="fas fa-syringe"></i> Adicionar
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+</html>

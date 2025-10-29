@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro Simplificado</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .container { max-width: 500px; margin: auto; }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Cadastro de Usuário</h1>
+
+    <form th:action="@{/registro}" method="post" th:object="${usuario}">
+        <input type="text" th:field="*{nome}" placeholder="Nome completo" required>
+        <input type="email" th:field="*{email}" placeholder="Email" required>
+        <input type="password" th:field="*{senha}" placeholder="Senha" required>
+        <input type="tel" th:field="*{telefone}" placeholder="Telefone">
+        <select th:field="*{sexo}">
+            <option value="">Selecione o sexo</option>
+            <option value="Masculino">Masculino</option>
+            <option value="Feminino">Feminino</option>
+            <option value="Outro">Outro</option>
+        </select>
+        <input type="text" th:field="*{cidade}" placeholder="Cidade">
+        <input type="text" th:field="*{estado}" placeholder="Estado">
+        <input type="text" th:field="*{endereco}" placeholder="Endereço">
+
+        <button type="submit">Cadastrar</button>
+    </form>
+
+    <p>Já tem conta? <a href="/login">Faça login</a></p>
+</div>
+</body>
+</html>
