@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Controle de Vacinas</title>
+  <style>
+    /* Seus estilos permanecem os mesmos */
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .container { max-width: 1000px; margin: 0 auto; }
+    .pet-section { border: 1px solid #ddd; border-radius: 8px; padding: 15px; margin-bottom: 20px; }
+    .vaccine-card { background-color: #f8f9fa; padding: 10px; border-radius: 5px; margin: 10px 0; }
+    .no-vaccines { color: #666; font-style: italic; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Controle de Vacinas</h1>
+
+  <!-- Debug: Verifique se os pets estão sendo recebidos -->
+  <div th:if="${pets == null or pets.empty}">
+    <p>Nenhum pet cadastrado ou não foi possível carregar os dados.</p>
+    <a th:href="@{/pets(email=${usuario.email})}">Cadastre seu primeiro pet</a>
+  </div>
+
+  <div th:each="pet : ${pets}" class="pet-section">
+    <h2 th:text="${pet.nome} + ' (' + ${pet.especie} + ')'"></h2>
+
+    <div th:if="${pet.vacinas == null or pet.vacinas.empty}" class="no-vaccines">
+      Nenhuma vacina registrada para este pet.
+    </div>
+
+    <div th:each="vacina : ${pet.vacinas}" class="vaccine-card">
+      <h3 th:text="${vacina.nome}"></h3>
+      <p><strong>Data de Aplicação:</strong>
+        <span th:text="${#temporals.format(vacina.dataAplicacao, 'dd/MM/yyyy')}"></span>
+      </p>
+      <p th:if="${vacina.proximaDose != null}"><strong>Próxima Dose:</strong>
+        <span th:text="${#temporals.format(vacina.proximaDose, 'dd/MM/yyyy')}"></span>
+      </p>
+      <p><strong>Status:</strong>
+        <span th:text="${vacina.completa} ? 'Completa' : 'Pendente'"
+              th:class="${vacina.completa} ? 'status-completa' : 'status-pendente'"></span>
+      </p>
+    </div>
+
+    <div class="add-vaccine">
+      <form th:action="@{/vacinas/registrar}" method="post">
+        <input type="hidden" name="email" th:value="${usuario.email}">
+        <input type="hidden" name="petId" th:value="${pet.id}">
+
+        <div style="display: flex; gap: 10px; margin-top: 10px;">
+          <select name="nomeVacina" required style="flex: 3;">
+            <option value="">Selecione a vacina...</option>
+            <option value="V8/V10">V8/V10 (Cães)</option>
+            <option value="Antirrábica">Antirrábica</option>
+            <option value="V4/V5">V4/V5 (Gatos)</option>
+          </select>
+          <input type="date" name="dataAplicacao" required style="flex: 2;">
+          <button type="submit" style="flex: 1;">+ Adicionar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+</html>

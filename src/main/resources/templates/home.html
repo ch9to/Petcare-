@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home - Petcare</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .welcome-message {
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+        .menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .menu-item {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .menu-item a {
+            text-decoration: none;
+            color: #3498db;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<h1 class="welcome-message" th:text="${mensagem}"></h1>
+
+<div class="menu">
+    <div class="menu-item">
+        <a th:href="@{/agendamentos(email=${usuario.email})}">Agendar Consulta</a>
+    </div>
+    <div class="menu-item">
+        <a th:href="@{/pets(email=${usuario.email})}">Meus Pets</a>
+    </div>
+    <div class="menu-item">
+        <a th:href="@{/meus-dados(email=${usuario.email})}">Meus Dados</a>
+    </div>
+    <div class="menu-item">
+        <a th:href="@{/vacinas(email=${usuario.email})}">Controle de Vacinas</a>
+    </div>
+</div>
+</body>
+</html>

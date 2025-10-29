@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Agendar Consulta</title>
+    <style>
+        /* Seus estilos permanecem */
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; }
+        textarea { width: 100%; min-height: 80px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Agendar Consulta</h1>
+
+    <form th:action="@{/consultas/agendar}" method="post">
+        <input type="hidden" name="email" th:value="${usuario.email}">
+
+        <div class="form-group">
+            <label>Selecione seu Pet:</label>
+            <select name="petId" required>
+                <option value="">-- Selecione --</option>
+                <option th:each="pet : ${pets}"
+                        th:value="${pet.id}"
+                        th:text="${pet.nome} + ' (' + ${pet.especie} + ')'"></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Data e Hora:</label>
+            <input type="datetime-local" name="dataHora" required>
+        </div>
+
+        <div class="form-group">
+            <label>Descrição/Motivo:</label>
+            <textarea name="descricao" required placeholder="Descreva o motivo da consulta"></textarea>
+        </div>
+
+        <button type="submit">Agendar Consulta</button>
+    </form>
+</div>
+</body>
+</html>
