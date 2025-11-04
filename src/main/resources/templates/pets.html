@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Meus Pets</title>
   <style>
+<<<<<<< HEAD
     /* Mantenha seus estilos existentes */
     body { font-family: Arial, sans-serif; padding: 20px; }
     .container { max-width: 1000px; margin: 0 auto; }
@@ -14,10 +15,63 @@
         margin-bottom: 20px;
     }
     .pet-header {
+=======
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f5f5f5;
+        margin: 0;
+        padding: 0;
+    }
+
+    .header {
+        background-color: #2e7d32;
+        color: white;
+        padding: 20px 0;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    h1 {
+        color: #2e7d32;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .pet-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 25px;
+        margin-top: 30px;
+    }
+
+    .pet-card {
+        background-color: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+        border-top: 5px solid #81c784;
+    }
+
+    .pet-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    }
+
+    .pet-header {
+        padding: 20px;
+        background-color: #e8f5e9;
+>>>>>>> d2f97ace1f43cd3d61c0fcfd955bd00d77dfe603
         display: flex;
         justify-content: space-between;
         align-items: center;
     }
+<<<<<<< HEAD
     .pet-info { margin-top: 10px; }
     .dicas {
         background-color: #f8f9fa;
@@ -47,6 +101,157 @@
     </button>
 
     <div id="addPetForm" style="display: none; margin-top: 20px;">
+=======
+
+    .pet-name {
+        font-size: 1.5rem;
+        color: #2e7d32;
+        margin: 0;
+    }
+
+    .pet-info {
+        padding: 20px;
+    }
+
+    .pet-info p {
+        margin: 10px 0;
+        color: #555;
+    }
+
+    .pet-info strong {
+        color: #2e7d32;
+    }
+
+    .btn-dicas {
+        background-color: #2e7d32;
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: background-color 0.3s;
+    }
+
+    .btn-dicas:hover {
+        background-color: #1b5e20;
+    }
+
+    .dicas {
+        background-color: #f1f8e9;
+        padding: 15px;
+        margin-top: 15px;
+        border-radius: 5px;
+        display: none;
+    }
+
+    .dicas h3 {
+        color: #2e7d32;
+        margin-top: 0;
+    }
+
+    .dicas p {
+        margin: 8px 0;
+        color: #333;
+    }
+
+    .add-pet {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    #btnAddPet {
+        background-color: #2e7d32;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background-color 0.3s;
+    }
+
+    #btnAddPet:hover {
+        background-color: #1b5e20;
+    }
+
+    #addPetForm {
+        background-color: white;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        margin-top: 20px;
+        display: none;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        color: #2e7d32;
+        font-weight: bold;
+    }
+
+    .form-group input, .form-group select {
+        width: 100%;
+        padding: 10px;
+        border: 2px solid #c8e6c9;
+        border-radius: 5px;
+        font-size: 1rem;
+    }
+
+    .form-group input:focus, .form-group select:focus {
+        border-color: #2e7d32;
+        outline: none;
+    }
+
+    .form-submit {
+        background-color: #2e7d32;
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1rem;
+        width: 100%;
+        transition: background-color 0.3s;
+    }
+
+    .form-submit:hover {
+        background-color: #1b5e20;
+    }
+
+    .pet-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .species-icon {
+        font-size: 1.5rem;
+        color: #2e7d32;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+<div class="header">
+  <div class="container">
+    <h1>Meus Pets</h1>
+  </div>
+</div>
+
+<div class="container">
+  <div class="add-pet">
+    <button id="btnAddPet">
+      <i class="fas fa-plus"></i> Adicionar Novo Pet
+    </button>
+
+    <div id="addPetForm">
+>>>>>>> d2f97ace1f43cd3d61c0fcfd955bd00d77dfe603
       <h3>Cadastrar Novo Pet</h3>
       <form th:action="@{/pets/cadastrar}" method="post">
         <input type="hidden" name="email" th:value="${usuario.email}">
@@ -77,11 +282,18 @@
           <input type="number" name="idade">
         </div>
 
+<<<<<<< HEAD
         <button type="submit">Cadastrar Pet</button>
+=======
+        <button type="submit" class="form-submit">
+          <i class="fas fa-save"></i> Cadastrar Pet
+        </button>
+>>>>>>> d2f97ace1f43cd3d61c0fcfd955bd00d77dfe603
       </form>
     </div>
   </div>
 
+<<<<<<< HEAD
   <div th:each="pet : ${pets}" class="pet-card">
     <div class="pet-header">
       <h2 th:text="${pet.nome}"></h2>
@@ -116,6 +328,44 @@
         </div>
         <div th:case="*">
           <p>Consulte um veterinário para orientações específicas</p>
+=======
+  <div class="pet-grid">
+    <div th:each="pet : ${pets}" class="pet-card">
+      <div class="pet-header">
+        <h2 class="pet-name" th:text="${pet.nome}"></h2>
+        <button th:data-especie="${pet.especie}" class="btn-dicas">
+          <i class="fas fa-lightbulb"></i> Dicas
+        </button>
+      </div>
+
+      <div class="pet-info">
+        <p><strong><i class="fas fa-paw species-icon"></i> Espécie:</strong> <span th:text="${pet.especie}"></span></p>
+        <p><strong><i class="fas fa-dna species-icon"></i> Raça:</strong> <span th:text="${pet.raca} ?: 'Não informada'"></span></p>
+        <p><strong><i class="fas fa-birthday-cake species-icon"></i> Idade:</strong> <span th:text="${pet.idade} + ' anos'"></span></p>
+      </div>
+
+      <div th:id="'dicas-' + ${pet.especie}" class="dicas">
+        <h3>Dicas de Cuidados para <span th:text="${pet.especie}"></span></h3>
+        <div th:switch="${pet.especie}">
+          <div th:case="'Cachorro'">
+            <p><i class="fas fa-check-circle" style="color: #2e7d32;"></i> Passeios diários são essenciais</p>
+            <p><i class="fas fa-check-circle" style="color: #2e7d32;"></i> Vacinação anual obrigatória</p>
+            <p><i class="fas fa-check-circle" style="color: #2e7d32;"></i> Banhos a cada 15-20 dias</p>
+          </div>
+          <div th:case="'Gato'">
+            <p><i class="fas fa-check-circle" style="color: #2e7d32;"></i> Caixa de areia sempre limpa</p>
+            <p><i class="fas fa-check-circle" style="color: #2e7d32;"></i> Escovação semanal</p>
+            <p><i class="fas fa-check-circle" style="color: #2e7d32;"></i> Brinquedos para estimulação</p>
+          </div>
+          <div th:case="'Pássaro'">
+            <p><i class="fas fa-check-circle" style="color: #2e7d32;"></i> Gaiola limpa diariamente</p>
+            <p><i class="fas fa-check-circle" style="color: #2e7d32;"></i> Alimentação específica para espécie</p>
+            <p><i class="fas fa-check-circle" style="color: #2e7d32;"></i> Espaço para voar é importante</p>
+          </div>
+          <div th:case="*">
+            <p>Consulte um veterinário para orientações específicas</p>
+          </div>
+>>>>>>> d2f97ace1f43cd3d61c0fcfd955bd00d77dfe603
         </div>
       </div>
     </div>
@@ -123,13 +373,19 @@
 </div>
 
 <script>
+<<<<<<< HEAD
   // Controle do formulário de adicionar pet
+=======
+>>>>>>> d2f97ace1f43cd3d61c0fcfd955bd00d77dfe603
   document.getElementById('btnAddPet').addEventListener('click', function() {
       var form = document.getElementById('addPetForm');
       form.style.display = form.style.display === 'none' ? 'block' : 'none';
   });
 
+<<<<<<< HEAD
   // Controle das dicas de cuidados
+=======
+>>>>>>> d2f97ace1f43cd3d61c0fcfd955bd00d77dfe603
   document.querySelectorAll('.btn-dicas').forEach(button => {
       button.addEventListener('click', function() {
           var especie = this.getAttribute('data-especie');

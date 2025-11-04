@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+<<<<<<< HEAD
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PetCare - Controle de Vacinas</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -589,10 +590,154 @@
             <p>Configure lembretes para vacinas</p>
             <a th:href="@{/lembretes}" class="btn btn-secondary">
                 <i class="fas fa-bell"></i> Ver Lembretes
+=======
+    <title>Home - Petcare</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://images.unsplash.com/photo-1534361960057-19889db9621e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+            background-size: cover;
+            color: #2c3e50;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(46, 125, 50, 0.85);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .welcome-message {
+            color: white;
+            margin-bottom: 40px;
+            text-align: center;
+            font-size: 2.5rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo img {
+            height: 80px;
+        }
+
+        .menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .menu-item {
+            background-color: white;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 180px;
+            border: 2px solid #81c784;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+            background-color: #e8f5e9;
+        }
+
+        .menu-item a {
+            text-decoration: none;
+            color: #2e7d32;
+            font-weight: bold;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .menu-icon {
+            font-size: 1.8rem;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            color: white;
+            padding: 20px;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .menu {
+                grid-template-columns: 1fr;
+            }
+
+            .welcome-message {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+<div class="container">
+    <div class="logo">
+        <img th:src="@{/images/pet-logo.png}" alt="PetCare Logo" src="https://cdn-icons-png.flaticon.com/512/616/616408.png">
+    </div>
+
+    <h1 class="welcome-message" th:text="${mensagem}"></h1>
+
+    <div class="menu">
+        <div class="menu-item">
+            <a th:href="@{/agendamentos(email=${usuario.email})}">
+                <i class="menu-icon fas fa-calendar-check"></i>
+                <span>Agendar Consulta</span>
+            </a>
+        </div>
+        <div class="menu-item">
+            <a th:href="@{/pets(email=${usuario.email})}">
+                <i class="menu-icon fas fa-paw"></i>
+                <span>Meus Pets</span>
+            </a>
+        </div>
+        <div class="menu-item">
+            <a th:href="@{/meus-dados(email=${usuario.email})}">
+                <i class="menu-icon fas fa-user"></i>
+                <span>Meus Dados</span>
+            </a>
+        </div>
+        <div class="menu-item">
+            <a th:href="@{/vacinas(email=${usuario.email})}">
+                <i class="menu-icon fas fa-syringe"></i>
+                <span>Controle de Vacinas</span>
+>>>>>>> d2f97ace1f43cd3d61c0fcfd955bd00d77dfe603
             </a>
         </div>
     </div>
 
+<<<<<<< HEAD
     <div class="page-title">
         <h1>Controle de Vacinas</h1>
         <p>Acompanhe a saúde e vacinação dos seus pets</p>
@@ -744,5 +889,11 @@
       });
     });
 </script>
+=======
+    <div class="footer">
+        <p>© 2023 PetCare - Todos os direitos reservados</p>
+    </div>
+</div>
+>>>>>>> d2f97ace1f43cd3d61c0fcfd955bd00d77dfe603
 </body>
 </html>
