@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro Simplificado</title>
     <style>
         body { font-family: Arial, sans-serif; padding: 20px; }
@@ -25,25 +26,17 @@
 <div class="container">
     <h1>Cadastro de Usuário</h1>
 
-    <form th:action="@{/registro}" method="post" th:object="${usuario}">
+    <form th:action="@{/registro/salvar}" method="post" th:object="${usuario}">
         <input type="text" th:field="*{nome}" placeholder="Nome completo" required>
         <input type="email" th:field="*{email}" placeholder="Email" required>
         <input type="password" th:field="*{senha}" placeholder="Senha" required>
         <input type="tel" th:field="*{telefone}" placeholder="Telefone">
-        <select th:field="*{sexo}">
-            <option value="">Selecione o sexo</option>
-            <option value="Masculino">Masculino</option>
-            <option value="Feminino">Feminino</option>
-            <option value="Outro">Outro</option>
-        </select>
-        <input type="text" th:field="*{cidade}" placeholder="Cidade">
-        <input type="text" th:field="*{estado}" placeholder="Estado">
         <input type="text" th:field="*{endereco}" placeholder="Endereço">
 
         <button type="submit">Cadastrar</button>
     </form>
 
-    <p>Já tem conta? <a href="/login">Faça login</a></p>
+    <p>Já tem conta? <a th:href="@{/login}">Faça login</a></p>
 </div>
 </body>
 </html>

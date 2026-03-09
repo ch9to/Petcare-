@@ -1,45 +1,70 @@
 package com.petcare.controller;
 
-import com.petcare.model.*;
-import com.petcare.repository.*;
-import lombok.RequiredArgsConstructor;
+import com.petcare.model.Pet;
+import com.petcare.model.Usuario;
+import com.petcare.repository.PetRepository;
+import com.petcare.repository.UsuarioRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.security.Principal;
+import java.util.List;
 
 @Controller
-@RequiredArgsConstructor
 public class PetController {
+
     private final PetRepository petRepository;
     private final UsuarioRepository usuarioRepository;
 
-    @GetMapping("/pets")
-    public String listarPets(@RequestParam String email, Model model) {
-        Usuario usuario = usuarioRepository.findByEmail(email);
-        model.addAttribute("pets", petRepository.findByDono_Id(usuario.getId()));
-        model.addAttribute("usuario", usuario);
-        return "pets";
+    public PetController(PetRepository petRepository, UsuarioRepository usuarioRepository) {
+        this.petRepository = petRepository;
+        this.usuarioRepository = usuarioRepository;
     }
 
-    @PostMapping("/pets/cadastrar")
-    public String cadastrarPet(
-            @RequestParam String email,
-            @RequestParam String nome,
-            @RequestParam String especie,
-            @RequestParam(required = false) String raca,
-            @RequestParam(required = false) Integer idade
-    ) {
-        Usuario dono = usuarioRepository.findByEmail(email);
+    @GetMapping("/pets")
+    public String verPets(Principal principal, Model model) {
 
-        Pet pet = Pet.builder()
-                .nome(nome)
-                .especie(especie)
-                .raca(raca)
-                .idade(idade)
-                .dono(dono)
-                .build();
+        String email = principal.getName();
+        Usuario usuario = usuarioRepository.findByEmail(email);
+
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+
+        List<Pet> pets = petRepository.findByDono(usuario);
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("pets", pets);
+        return "pets"; // Página pets.html
+    }
+
+    @PostMapping("/pets/salvar")
+    public String salvarPet(Principal principal,
+                            @RequestParam String nome,
+                            @RequestParam String especie,
+                            @RequestParam String raca,
+                            @RequestParam int idade,
+                            Model model) {
+
+        String email = principal.getName();
+        Usuario usuario = usuarioRepository.findByEmail(email);
+
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+
+        Pet pet = new Pet();
+        pet.setNome(nome);
+        pet.setEspecie(especie);
+        pet.setRaca(raca);
+        pet.setIdade(idade);
+        pet.setDono(usuario);
 
         petRepository.save(pet);
-        return "redirect:/pets?email=" + email;
+
+
+        return "redirect:/pets";
     }
 }

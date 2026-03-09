@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anunciar Pet - PetCare</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body {
+            background-color: #f5f9f5;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 20px;
+            /* Fundo cinza padrão */
+            background-color: #f5f7fa;
+        }
+        .container { width: 100%; max-width: 800px; background-color: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); overflow: hidden; }
+        .header { background: linear-gradient(135deg, #2e7d32, #4caf50); color: white; padding: 25px 30px; display: flex; align-items: center; gap: 15px; }
+        .header i { font-size: 28px; }
+        .header h1 { font-size: 24px; font-weight: 600; }
+        .content { padding: 30px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; color: #2e7d32; font-weight: 600; font-size: 15px; }
+        .input-with-icon { position: relative; }
+        .input-with-icon i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #2e7d32; }
+        .input-with-icon input, .input-with-icon select, .input-with-icon textarea { width: 100%; padding: 15px 15px 15px 45px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; transition: all 0.3s; }
+        .input-with-icon textarea { min-height: 120px; padding: 15px; }
+        .input-with-icon input:focus, .input-with-icon select:focus, .input-with-icon textarea:focus {
+            border-color: #4caf50;
+            box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+            outline: none;
+        }
+        .btn-submit { background-color: #2e7d32; color: white; border: none; padding: 12px 25px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; transition: background-color 0.3s; display: flex; align-items: center; gap: 8px; }
+        .btn-submit:hover { background-color: #4caf50; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <i class="fas fa-bullhorn"></i>
+        <h1>Anunciar Pet para Adoção</h1>
+    </div>
+    <div class="content">
+        <form th:action="@{/adocao/salvar}" method="post">
+            <div class="form-group">
+                <label for="nome">Nome do Pet</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-paw"></i>
+                    <input type="text" id="nome" name="nome" required placeholder="Ex: Bob">
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="especie">Espécie</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-dog"></i>
+                        <select id="especie" name="especie" required>
+                            <option value="">Selecione...</option>
+                            <option value="Cão">Cão</option>
+                            <option value="Gato">Gato</option>
+                            <option value="Outro">Outro</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="raca">Raça</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-dna"></i>
+                        <input type="text" id="raca" name="raca" placeholder="Ex: SRD (Sem Raça Definida)">
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="sexo">Sexo</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-venus-mars"></i>
+                        <select id="sexo" name="sexo">
+                            <option value="">Selecione...</option>
+                            <option value="Macho">Macho</option>
+                            <option value="Fêmea">Fêmea</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="porte">Porte</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-ruler-combined"></i>
+                        <select id="porte" name="porte">
+                            <option value="">Selecione...</option>
+                            <option value="Pequeno">Pequeno</option>
+                            <option value="Médio">Médio</option>
+                            <option value="Grande">Grande</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="idade">Idade</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-birthday-cake"></i>
+                    <input type="text" id="idade" name="idade" placeholder="Ex: Aprox. 2 anos, Filhote">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="localizacao">Localização</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <input type="text" id="localizacao" name="localizacao" required placeholder="Cidade, Estado">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="fotoUrl">URL da Foto</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-image"></i>
+                    <input type="url" id="fotoUrl" name="fotoUrl" required placeholder="https://exemplo.com/foto.png">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="historia">História / Descrição</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-paragraph" style="top: 25px; align-self: flex-start;"></i>
+                    <textarea id="historia" name="historia" required placeholder="Descreva o temperamento do pet, se é castrado, etc..." style="padding-left: 45px;"></textarea>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-submit">
+                <i class="fas fa-save"></i> Salvar e Anunciar
+            </button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

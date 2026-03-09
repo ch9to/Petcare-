@@ -2,172 +2,262 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Agendar Consulta</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendar Consulta - PetCare</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-<<<<<<< HEAD
-        /* Seus estilos permanecem */
-        body { font-family: Arial, sans-serif; padding: 20px; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; }
-        textarea { width: 100%; min-height: 80px; }
-    </style>
-</head>
-<body>
-<div class="container">
-    <h1>Agendar Consulta</h1>
-=======
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f5f5f5;
+        /* (Seus estilos CSS permanecem os mesmos) */
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        .header {
-            background-color: #2e7d32;
-            color: white;
-            padding: 20px 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        body {
+            background-color: #f5f9f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
         }
 
         .container {
+            width: 100%;
             max-width: 800px;
-            margin: 30px auto;
             background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
         }
 
-        h1 {
-            color: #2e7d32;
-            text-align: center;
-            margin-bottom: 30px;
+        .header {
+            background: linear-gradient(135deg, #2e7d32, #4caf50);
+            color: white;
+            padding: 25px 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header i {
+            font-size: 28px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .form-container {
+            padding: 30px;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .form-group label {
             display: block;
             margin-bottom: 8px;
             color: #2e7d32;
-            font-weight: bold;
+            font-weight: 600;
+            font-size: 16px;
         }
 
-        .form-group select,
-        .form-group input[type="datetime-local"],
-        .form-group textarea {
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-with-icon i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #2e7d32;
+        }
+
+        .input-with-icon input,
+        .input-with-icon select,
+        .input-with-icon textarea {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #c8e6c9;
-            border-radius: 5px;
-            font-size: 1rem;
-            box-sizing: border-box;
+            padding: 15px 15px 15px 45px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
         }
 
-        .form-group select:focus,
-        .form-group input[type="datetime-local"]:focus,
-        .form-group textarea:focus {
-            border-color: #2e7d32;
+        .input-with-icon input:focus,
+        .input-with-icon select:focus,
+        .input-with-icon textarea:focus {
+            border-color: #4caf50;
+            box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
             outline: none;
         }
 
-        textarea {
+        .input-with-icon textarea {
             min-height: 120px;
             resize: vertical;
         }
 
-        button[type="submit"] {
+        .submit-button {
             background-color: #2e7d32;
             color: white;
             border: none;
-            padding: 15px 30px;
-            border-radius: 5px;
+            padding: 15px 25px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
-            font-size: 1.1rem;
-            width: 100%;
             transition: background-color 0.3s;
-            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0 auto;
         }
 
-        button[type="submit"]:hover {
-            background-color: #1b5e20;
+        .submit-button:hover {
+            background-color: #4caf50;
         }
 
-        .pet-icon {
+        .info-box {
+            background-color: #e8f5e9;
+            border-left: 4px solid #2e7d32;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .info-box p {
             color: #2e7d32;
-            margin-right: 10px;
+            font-size: 14px;
+            margin: 0;
         }
 
-        .form-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .form-header i {
-            font-size: 3rem;
-            color: #2e7d32;
+        .pet-card {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 15px;
             margin-bottom: 15px;
+            border-left: 4px solid #4caf50;
+        }
+
+        .pet-card h3 {
+            color: #2e7d32;
+            margin-bottom: 5px;
+        }
+
+        .pet-card p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 100%;
+                margin: 10px;
+            }
+
+            .form-container {
+                padding: 20px;
+            }
+        }
+
+        .success-message {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
         }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
-<div class="header">
-    <div class="container">
+<div class="container">
+    <div class="header">
+        <i class="fas fa-calendar-check"></i>
         <h1>Agendar Consulta</h1>
     </div>
-</div>
 
-<div class="container">
-    <div class="form-header">
-        <i class="fas fa-calendar-alt"></i>
+    <div class="form-container">
+        <div class="info-box">
+            <p><i class="fas fa-info-circle"></i> Agende uma consulta para seu pet. Preencha todos os campos abaixo.</p>
+        </div>
+
+        <form th:action="@{/consultas/agendar}" method="post" id="appointmentForm">
+            <div class="form-group">
+                <label for="petId">Selecione seu Pet:</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-paw"></i>
+                    <select name="petId" id="petId" required>
+                        <option value="">-- Selecione seu pet --</option>
+                        <option th:each="pet : ${pets}"
+                                th:value="${pet.id}"
+                                th:text="${pet.nome} + ' (' + ${pet.especie} + ')'"></option>
+                    </select>
+                </div>
+
+                <div id="petsList" style="margin-top: 15px;">
+                    <div class="pet-card" th:each="pet : ${pets}">
+                        <h3 th:text="${pet.nome}"></h3>
+                        <p th:text="${pet.especie} + ' - ' + ${pet.raca}"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="dataHora">Data e Hora da Consulta:</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-clock"></i>
+                    <input type="datetime-local" name="dataHora" id="dataHora" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="descricao">Descrição/Motivo da Consulta:</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-stethoscope"></i>
+                    <textarea name="descricao" id="descricao" required placeholder="Descreva o motivo da consulta, sintomas observados ou qualquer informação relevante sobre a saúde do seu pet..."></textarea>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-button">
+                <i class="fas fa-calendar-plus"></i> Agendar Consulta
+            </button>
+        </form>
+
+        <div class="success-message" id="successMessage">
+            <i class="fas fa-check-circle"></i> Consulta agendada com sucesso!
+        </div>
     </div>
->>>>>>> d2f97ace1f43cd3d61c0fcfd955bd00d77dfe603
-
-    <form th:action="@{/consultas/agendar}" method="post">
-        <input type="hidden" name="email" th:value="${usuario.email}">
-
-        <div class="form-group">
-<<<<<<< HEAD
-            <label>Selecione seu Pet:</label>
-=======
-            <label><i class="fas fa-paw pet-icon"></i>Selecione seu Pet:</label>
->>>>>>> d2f97ace1f43cd3d61c0fcfd955bd00d77dfe603
-            <select name="petId" required>
-                <option value="">-- Selecione --</option>
-                <option th:each="pet : ${pets}"
-                        th:value="${pet.id}"
-                        th:text="${pet.nome} + ' (' + ${pet.especie} + ')'"></option>
-            </select>
-        </div>
-
-        <div class="form-group">
-<<<<<<< HEAD
-            <label>Data e Hora:</label>
-=======
-            <label><i class="far fa-clock pet-icon"></i>Data e Hora:</label>
->>>>>>> d2f97ace1f43cd3d61c0fcfd955bd00d77dfe603
-            <input type="datetime-local" name="dataHora" required>
-        </div>
-
-        <div class="form-group">
-<<<<<<< HEAD
-            <label>Descrição/Motivo:</label>
-            <textarea name="descricao" required placeholder="Descreva o motivo da consulta"></textarea>
-        </div>
-
-        <button type="submit">Agendar Consulta</button>
-=======
-            <label><i class="fas fa-edit pet-icon"></i>Descrição/Motivo:</label>
-            <textarea name="descricao" required placeholder="Descreva o motivo da consulta"></textarea>
-        </div>
-
-        <button type="submit"><i class="fas fa-calendar-check"></i> Agendar Consulta</button>
->>>>>>> d2f97ace1f43cd3d61c0fcfd955bd00d77dfe603
-    </form>
 </div>
+
+<script>
+
+
+    // Preencher a data/hora com um valor padrão (próxima segunda-feira às 9:00)
+    window.addEventListener('DOMContentLoaded', (event) => {
+        const now = new Date();
+        // Lógica para definir a próxima segunda-feira às 9h
+        let nextMonday = new Date(now.getFullYear(), now.getMonth(), now.getDate() + (1 + 7 - now.getDay()) % 7, 9, 0, 0);
+        if (nextMonday < now) { // Se a próxima segunda já passou nesta semana
+             nextMonday.setDate(nextMonday.getDate() + 7);
+        }
+
+        // Formatar para o input datetime-local (YYYY-MM-DDTHH:MM)
+        const year = nextMonday.getFullYear();
+        const month = String(nextMonday.getMonth() + 1).padStart(2, '0');
+        const day = String(nextMonday.getDate()).padStart(2, '0');
+        const hours = String(nextMonday.getHours()).padStart(2, '0');
+        const minutes = String(nextMonday.getMinutes()).padStart(2, '0');
+
+        const defaultDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+        document.getElementById('dataHora').value = defaultDateTime;
+    });
+</script>
 </body>
 </html>

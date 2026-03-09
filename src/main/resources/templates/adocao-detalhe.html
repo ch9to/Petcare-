@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pet.nome} + ' - Adoção PetCare'">Detalhes do Pet</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+          --primary: #4CAF50;
+          --primary-dark: #388E3C;
+          --gray: #6c757d;
+          --border-radius: 12px;
+          --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+
+        /* Fundo de patinhas removido. Voltamos ao cinza original. */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            padding: 20px;
+        }
+
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #2e7d32, #4caf50);
+            color: white;
+            padding: 25px 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .header a { color: white; text-decoration: none; font-size: 20px; }
+        .header h1 { font-size: 24px; font-weight: 600; margin-left: 15px; }
+        .content { padding: 30px; }
+
+        .pet-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        .pet-image img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        .pet-info h2 {
+            font-size: 32px;
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+        }
+        .pet-info .historia {
+            font-size: 16px;
+            line-height: 1.7;
+            color: #555;
+            margin-bottom: 25px;
+            white-space: pre-wrap; /* Preserva quebras de linha */
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .info-item {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
+        .info-label { font-size: 14px; color: #666; margin-bottom: 5px; display: block; }
+        .info-value { font-size: 16px; color: #333; font-weight: 500; }
+
+        .contato-box {
+            background: #e8f5e9;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--primary-dark);
+        }
+        .contato-box h3 {
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+        @media (max-width: 768px) { .pet-details { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <a th:href="@{/adocao}"><i class="fas fa-arrow-left"></i></a>
+        <h1 th:text="'Conheça ' + ${pet.nome}"></h1>
+    </div>
+
+    <div class="content">
+        <div class="pet-details">
+            <div class="pet-image">
+                <img th:src="${(pet.fotoUrl == null OR #strings.isEmpty(pet.fotoUrl)) ? 'https://via.placeholder.com/400x400?text=Pet+Sem+Foto' : pet.fotoUrl}"
+                     th:alt="${pet.nome}"
+                     onerror="this.src='https://via.placeholder.com/400x400?text=Link+Quebrado'"/>
+            </div>
+
+            <div class="pet-info">
+                <h2 th:text="${pet.nome}"></h2>
+                <p class="historia" th:text="${pet.historia}"></p>
+
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Espécie</span>
+                        <span class="info-value" th:text="${pet.especie}"></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Raça</span>
+                        <span class="info-value" th:text="${pet.raca} ?: 'Não informado'"></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Idade</span>
+                        <span class="info-value" th:text="${pet.idade} ?: 'Não informado'"></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Sexo</span>
+                        <span class="info-value" th:text="${pet.sexo} ?: 'Não informado'"></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Porte</span>
+                        <span class="info-value" th:text="${pet.porte} ?: 'Não informado'"></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Localização</span>
+                        <span class="info-value" th:text="${pet.localizacao}"></span>
+                    </div>
+                </div>
+
+                <div class="contato-box">
+                    <h3>Interessado? Entre em contato!</h3>
+                    <div class="info-item" style="background: white;">
+                        <span class="info-label">Nome</span>
+                        <span class="info-value" th:text="${pet.contato.nome}"></span>
+                    </div>
+                    <div class="info-item" style="background: white; margin-top: 10px;">
+                        <span class="info-label">Telefone</span>
+                        <span class="info-value" th:text="${pet.contato.telefone} ?: 'Não informado'"></span>
+                    </div>
+                    <div class="info-item" style="background: white; margin-top: 10px;">
+                        <span class="info-label">Email</span>
+                        <span class="info-value" th:text="${pet.contato.email}"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
