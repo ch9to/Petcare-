@@ -1,839 +1,134 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fórum - PetCare</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    body {
-        background-color: #f5f9f5;
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
-        min-height: 100vh;
-        padding: 20px;
-    }
-
-    .container {
-        width: 100%;
-        max-width: 1200px;
-        background-color: white;
-        border-radius: 15px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-    }
-
-    .header {
-        background: linear-gradient(135deg, #2e7d32, #4caf50);
-        color: white;
-        padding: 25px 30px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    .header-content {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-    }
-
-    .header i {
-        font-size: 28px;
-    }
-
-    .header h1 {
-        font-size: 24px;
-        font-weight: 600;
-    }
-
-    .user-info {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .user-avatar {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background-color: rgba(255, 255, 255, 0.2);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .content {
-        padding: 30px;
-        display: flex;
-        gap: 30px;
-    }
-
-    .main-content {
-        flex: 3;
-    }
-
-    .sidebar {
-        flex: 1;
-    }
-
-    .welcome-card {
-        background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
-        border-radius: 10px;
-        padding: 25px;
-        margin-bottom: 25px;
-        border-left: 4px solid #2e7d32;
-    }
-
-    .welcome-card h2 {
-        color: #2e7d32;
-        margin-bottom: 10px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .welcome-card p {
-        color: #555;
-        line-height: 1.6;
-    }
-
-    .categories {
-        background-color: white;
-        border-radius: 10px;
-        padding: 20px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        border: 1px solid #e0e0e0;
-        margin-bottom: 25px;
-    }
-
-    .categories h3 {
-        color: #2e7d32;
-        margin-bottom: 15px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .category-list {
-        list-style: none;
-    }
-
-    .category-item {
-        padding: 12px 15px;
-        border-bottom: 1px solid #f0f0f0;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        transition: background-color 0.3s;
-        cursor: pointer;
-    }
-
-    .category-item:last-child {
-        border-bottom: none;
-    }
-
-    .category-item:hover {
-        background-color: #f5f9f5;
-    }
-
-    .category-item.active {
-        background-color: #e8f5e9;
-        border-left: 3px solid #2e7d32;
-    }
-
-    .category-item i {
-        color: #2e7d32;
-    }
-
-    .new-post-btn {
-        background-color: #2e7d32;
-        color: white;
-        border: none;
-        padding: 12px 20px;
-        border-radius: 8px;
-        font-size: 15px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: background-color 0.3s;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        width: 100%;
-        justify-content: center;
-        margin-bottom: 20px;
-    }
-
-    .new-post-btn:hover {
-        background-color: #4caf50;
-    }
-
-    .forum-stats {
-        background-color: white;
-        border-radius: 10px;
-        padding: 20px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        border: 1px solid #e0e0e0;
-    }
-
-    .forum-stats h3 {
-        color: #2e7d32;
-        margin-bottom: 15px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .stat-item {
-        display: flex;
-        justify-content: space-between;
-        padding: 10px 0;
-        border-bottom: 1px solid #f0f0f0;
-    }
-
-    .stat-item:last-child {
-        border-bottom: none;
-    }
-
-    .posts-section {
-        background-color: white;
-        border-radius: 10px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        border: 1px solid #e0e0e0;
-        margin-bottom: 25px;
-    }
-
-    .posts-header {
-        padding: 20px;
-        border-bottom: 1px solid #e8f5e9;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .posts-header h2 {
-        color: #2e7d32;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .search-box {
-        position: relative;
-        width: 300px;
-    }
-
-    .search-box i {
-        position: absolute;
-        left: 15px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #2e7d32;
-    }
-
-    .search-box input {
-        width: 100%;
-        padding: 12px 15px 12px 45px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        font-size: 15px;
-        transition: all 0.3s;
-    }
-
-    .search-box input:focus {
-        border-color: #4caf50;
-        box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
-        outline: none;
-    }
-
-    .post-card {
-        padding: 20px;
-        border-bottom: 1px solid #f0f0f0;
-        transition: background-color 0.3s;
-    }
-
-    .post-card:hover {
-        background-color: #f9f9f9;
-    }
-
-    .post-card:last-child {
-        border-bottom: none;
-    }
-
-    .post-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 10px;
-    }
-
-    .post-title {
-        font-size: 18px;
-        font-weight: 600;
-        color: #2e7d32;
-        text-decoration: none;
-        transition: color 0.3s;
-    }
-
-    .post-title:hover {
-        color: #4caf50;
-    }
-
-    .post-meta {
-        display: flex;
-        gap: 15px;
-        font-size: 14px;
-        color: #666;
-    }
-
-    .post-content {
-        color: #555;
-        line-height: 1.6;
-        margin-bottom: 15px;
-    }
-
-    .post-footer {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .post-author {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .author-avatar {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        background-color: #e8f5e9;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 14px;
-        color: #2e7d32;
-    }
-
-    .post-stats {
-        display: flex;
-        gap: 15px;
-        font-size: 14px;
-        color: #666;
-    }
-
-    .post-stat {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-    }
-
-    .pagination {
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-        margin-top: 20px;
-    }
-
-    .pagination-btn {
-        padding: 8px 15px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        background-color: white;
-        cursor: pointer;
-        transition: all 0.3s;
-    }
-
-    .pagination-btn.active {
-        background-color: #2e7d32;
-        color: white;
-        border-color: #2e7d32;
-    }
-
-    .pagination-btn:hover:not(.active) {
-        background-color: #f5f5f5;
-    }
-
-    .modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 1000;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .modal-content {
-        background-color: white;
-        padding: 30px;
-        border-radius: 10px;
-        max-width: 600px;
-        width: 90%;
-        max-height: 90vh;
-        overflow-y: auto;
-    }
-
-    .modal-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-        padding-bottom: 15px;
-        border-bottom: 1px solid #e8f5e9;
-    }
-
-    .modal-header h2 {
-        color: #2e7d32;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .close-modal {
-        background: none;
-        border: none;
-        font-size: 24px;
-        cursor: pointer;
-        color: #666;
-    }
-
-    .form-group {
-        margin-bottom: 20px;
-    }
-
-    .form-group label {
-        display: block;
-        margin-bottom: 8px;
-        color: #2e7d32;
-        font-weight: 600;
-        font-size: 15px;
-    }
-
-    .input-with-icon {
-        position: relative;
-    }
-
-    .input-with-icon i {
-        position: absolute;
-        left: 15px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #2e7d32;
-    }
-
-    .input-with-icon input,
-    .input-with-icon select,
-    .input-with-icon textarea {
-        width: 100%;
-        padding: 12px 15px 12px 45px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        font-size: 15px;
-        transition: all 0.3s;
-    }
-
-    .input-with-icon textarea {
-        min-height: 150px;
-        resize: vertical;
-    }
-
-    .input-with-icon input:focus,
-    .input-with-icon select:focus,
-    .input-with-icon textarea:focus {
-        border-color: #4caf50;
-        box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
-        outline: none;
-    }
-
-    .btn-submit {
-        background-color: #2e7d32;
-        color: white;
-        border: none;
-        padding: 12px 25px;
-        border-radius: 8px;
-        font-size: 15px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: background-color 0.3s;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .btn-submit:hover {
-        background-color: #4caf50;
-    }
-
-    .success-message {
-        background-color: #e8f5e9;
-        color: #2e7d32;
-        padding: 15px;
-        border-radius: 8px;
-        margin-bottom: 20px;
-        text-align: center;
-    }
-
-    .error-message {
-        background-color: #ffebee;
-        color: #c62828;
-        padding: 15px;
-        border-radius: 8px;
-        margin-bottom: 20px;
-        text-align: center;
-    }
-
-    @media (max-width: 768px) {
-        .container {
-            width: 100%;
-            margin: 10px;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fórum - PetCare</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* (Seus estilos CSS permanecem os mesmos) */
+        :root {
+          --primary: #4CAF50;
+          --primary-dark: #388E3C;
+          --danger: #dc3545;
         }
-
-        .content {
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body {
+            background-color: #f5f7fa;
             padding: 20px;
-            flex-direction: column;
         }
+        .container { width: 100%; max-width: 1000px; margin: 0 auto; background-color: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); overflow: hidden; }
+        .header { background: linear-gradient(135deg, #2e7d32, #4caf50); color: white; padding: 25px 30px; display: flex; align-items: center; gap: 15px; }
+        .header i { font-size: 28px; }
+        .header h1 { font-size: 24px; font-weight: 600; }
+        .content { padding: 30px; }
+        .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #e8f5e9; }
+        .section-header i { color: #2e7d32; font-size: 20px; }
+        .section-header h2 { color: #2e7d32; font-size: 20px; font-weight: 600; }
+        .post-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); transition: all 0.3s; position: relative; }
+        .post-card:hover { transform: translateY(-5px); box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); }
+        .post-title { font-size: 20px; font-weight: 600; color: #2e7d32; text-decoration: none; margin-bottom: 10px; display: block; }
+        .post-title:hover { color: #4caf50; }
+        .post-meta { font-size: 14px; color: #666; }
+        .post-meta span { font-weight: 500; color: #333; }
+        .form-section { background-color: #f9f9f9; padding: 25px; border-radius: 10px; border: 1px solid #e0e0e0; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; color: #2e7d32; font-weight: 600; font-size: 15px; }
+        .input-with-icon { position: relative; }
+        .input-with-icon i { position: absolute; left: 15px; top: 18px; color: #2e7d32; }
+        .input-with-icon input, .input-with-icon textarea { width: 100%; padding: 15px 15px 15px 45px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; }
+        .input-with-icon textarea { padding: 15px; min-height: 100px; }
+        .btn-submit { background-color: #2e7d32; color: white; border: none; padding: 12px 25px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; transition: background-color 0.3s; display: flex; align-items: center; gap: 8px; }
+        .btn-submit:hover { background-color: #4caf50; }
 
-        .sidebar {
-            order: -1;
+        .btn-delete-post {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: #aaa;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
         }
-
-        .search-box {
-            width: 100%;
-            margin-top: 15px;
+        .btn-delete-post:hover {
+            color: var(--danger, #dc3545);
+            transform: scale(1.2);
         }
-
-        .posts-header {
-            flex-direction: column;
-            align-items: flex-start;
-        }
-    }
-  </style>
+        .success-message { background-color: #e8f5e9; color: #2e7d32; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center; }
+        .error-message { background-color: #ffebee; color: #c62828; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center; }
+    </style>
 </head>
 <body>
 <div class="container">
-  <div class="header">
-    <div class="header-content">
-      <i class="fas fa-comments"></i>
-      <h1>Fórum PetCare</h1>
-    </div>
-    <div class="user-info">
-      <div class="user-avatar">
-        <i class="fas fa-user"></i>
-      </div>
-      <span th:text="${usuario.nome}">Usuário</span>
-    </div>
-  </div>
-
-  <div class="content">
-    <div class="main-content">
-      <!-- Mensagens do Thymeleaf -->
-      <div th:if="${successMessage}" class="success-message">
-        <i class="fas fa-check-circle"></i> <span th:text="${successMessage}"></span>
-      </div>
-
-      <div th:if="${errorMessage}" class="error-message">
-        <i class="fas fa-exclamation-circle"></i> <span th:text="${errorMessage}"></span>
-      </div>
-
-      <div class="welcome-card">
-        <h2><i class="fas fa-heart"></i> Bem-vindo ao Fórum PetCare!</h2>
-        <p>Compartilhe experiências, tire dúvidas e converse com outros tutores sobre cuidados com seus pets. Juntos, podemos proporcionar uma vida mais saudável e feliz para nossos animais de estimação.</p>
-      </div>
-
-      <div class="posts-section">
-        <div class="posts-header">
-          <h2><i class="fas fa-list"></i> Tópicos Recentes</h2>
-          <div class="search-box">
-            <i class="fas fa-search"></i>
-            <input type="text" placeholder="Buscar no fórum...">
-          </div>
-        </div>
-
-        <!-- Exemplo de post 1 -->
-        <div class="post-card">
-          <div class="post-header">
-            <a href="#" class="post-title">Alimentação natural para cães - Vale a pena?</a>
-            <div class="post-meta">
-              <span><i class="far fa-eye"></i> 142</span>
-              <span><i class="far fa-comment"></i> 23</span>
-            </div>
-          </div>
-          <div class="post-content">
-            Estou considerando mudar meu labrador para alimentação natural. Alguém já fez essa transição? Quais os benefícios e desafios que encontraram?
-          </div>
-          <div class="post-footer">
-            <div class="post-author">
-              <div class="author-avatar">
-                <i class="fas fa-user"></i>
-              </div>
-              <span>Maria Silva</span>
-            </div>
-            <div class="post-stats">
-              <div class="post-stat">
-                <i class="far fa-clock"></i> 2 horas atrás
-              </div>
-              <div class="post-stat">
-                <i class="fas fa-tag"></i> Alimentação
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Exemplo de post 2 -->
-        <div class="post-card">
-          <div class="post-header">
-            <a href="#" class="post-title">Gato com problemas urinários - Preciso de ajuda!</a>
-            <div class="post-meta">
-              <span><i class="far fa-eye"></i> 89</span>
-              <span><i class="far fa-comment"></i> 14</span>
-            </div>
-          </div>
-          <div class="post-content">
-            Meu gato de 5 anos está tendo dificuldade para urinar. Já levei ao vet e ele receitou remédios, mas gostaria de saber se alguém passou por isso e tem dicas de cuidados em casa.
-          </div>
-          <div class="post-footer">
-            <div class="post-author">
-              <div class="author-avatar">
-                <i class="fas fa-user"></i>
-              </div>
-              <span>João Santos</span>
-            </div>
-            <div class="post-stats">
-              <div class="post-stat">
-                <i class="far fa-clock"></i> 5 horas atrás
-              </div>
-              <div class="post-stat">
-                <i class="fas fa-tag"></i> Saúde
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Exemplo de post 3 -->
-        <div class="post-card">
-          <div class="post-header">
-            <a href="#" class="post-title">Adestramento positivo funciona mesmo?</a>
-            <div class="post-meta">
-              <span><i class="far fa-eye"></i> 203</span>
-              <span><i class="far fa-comment"></i> 31</span>
-            </div>
-          </div>
-          <div class="post-content">
-            Tenho um border collie de 1 ano que é muito inteligente mas também muito teimoso. Estou pensando em adestramento positivo. Alguém tem experiência com esse método?
-          </div>
-          <div class="post-footer">
-            <div class="post-author">
-              <div class="author-avatar">
-                <i class="fas fa-user"></i>
-              </div>
-              <span>Ana Costa</span>
-            </div>
-            <div class="post-stats">
-              <div class="post-stat">
-                <i class="far fa-clock"></i> 1 dia atrás
-              </div>
-              <div class="post-stat">
-                <i class="fas fa-tag"></i> Comportamento
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Paginação -->
-        <div class="pagination">
-          <button class="pagination-btn active">1</button>
-          <button class="pagination-btn">2</button>
-          <button class="pagination-btn">3</button>
-          <button class="pagination-btn">></button>
-        </div>
-      </div>
+    <div class="header">
+        <i class="fas fa-comments"></i>
+        <h1>Fórum PetCare</h1>
     </div>
 
-    <div class="sidebar">
-      <button class="new-post-btn" onclick="openNewPostModal()">
-        <i class="fas fa-plus"></i> Novo Tópico
-      </button>
+    <div class="content">
+        <div th:if="${param.success}" class="success-message">
+            <i class="fas fa-check-circle"></i> <span th:text="${param.success}"></span>
+        </div>
+        <div th:if="${param.error}" class="error-message">
+            <i class="fas fa-exclamation-circle"></i> <span th:text="${param.error}"></span>
+        </div>
 
-      <div class="categories">
-        <h3><i class="fas fa-folder"></i> Categorias</h3>
-        <ul class="category-list">
-          <li class="category-item active">
-            <i class="fas fa-paw"></i> Todos os Tópicos
-          </li>
-          <li class="category-item">
-            <i class="fas fa-bone"></i> Alimentação
-          </li>
-          <li class="category-item">
-            <i class="fas fa-heartbeat"></i> Saúde
-          </li>
-          <li class="category-item">
-            <i class="fas fa-graduation-cap"></i> Adestramento
-          </li>
-          <li class="category-item">
-            <i class="fas fa-home"></i> Cuidados Diários
-          </li>
-          <li class="category-item">
-            <i class="fas fa-stethoscope"></i> Veterinária
-          </li>
-          <li class="category-item">
-            <i class="fas fa-syringe"></i> Vacinas
-          </li>
-        </ul>
-      </div>
+        <div class="form-section" style="margin-bottom: 30px;">
+            <div class="section-header">
+                <i class="fas fa-plus-circle"></i>
+                <h2>Iniciar Nova Discussão</h2>
+            </div>
 
-      <div class="forum-stats">
-        <h3><i class="fas fa-chart-bar"></i> Estatísticas do Fórum</h3>
-        <div class="stat-item">
-          <span>Tópicos:</span>
-          <span>156</span>
+            <form th:action="@{/forum/post/criar}" method="post">
+                <div class="form-group">
+                    <label for="titulo">Título</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-heading"></i>
+                        <input type="text" id="titulo" name="titulo" placeholder="Qual a sua dúvida?" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="conteudo">Conteúdo</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-paragraph" style="top: 18px;"></i>
+                        <textarea id="conteudo" name="conteudo" placeholder="Descreva em detalhes a situação do seu pet..." required style="padding-left: 45px;"></textarea>
+                    </div>
+                </div>
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-paper-plane"></i> Publicar
+                </button>
+            </form>
         </div>
-        <div class="stat-item">
-          <span>Respostas:</span>
-          <span>842</span>
+
+        <div class="posts-list">
+            <div class="section-header">
+                <i class="fas fa-list-ul"></i>
+                <h2>Discussões Recentes</h2>
+            </div>
+
+            <div th:if="${posts.empty}">
+                <p style="text-align: center; color: #666;">Nenhuma discussão iniciada ainda. Seja o primeiro!</p>
+            </div>
+
+            <div th:each="post : ${posts}" class="post-card">
+                <a th:if="${post.autor.id == usuario.id}"
+                   th:href="@{/forum/post/deletar/{id}(id=${post.id})}"
+                   class="btn-delete-post"
+                   title="Remover meu post"
+                   onclick="return confirm('Tem certeza que deseja apagar este post? Esta ação não pode ser desfeita.')">
+                    <i class="fas fa-trash-alt"></i>
+                </a>
+
+                <a th:href="@{/forum/post/{id}(id=${post.id})}" class="post-title" th:text="${post.titulo}"></a>
+                <p class="post-meta">
+                    Por <span th:text="${post.autor.nome}"></span> em
+                    <span th:utext="${#temporals.format(post.dataCriacao, 'dd/MM/yyyy') + ' &agrave;s ' + #temporals.format(post.dataCriacao, 'HH:mm')}"></span> - <span th:text="${#lists.size(post.respostas)} + ' respostas'"></span>
+                </p>
+            </div>
         </div>
-        <div class="stat-item">
-          <span>Usuários:</span>
-          <span>203</span>
-        </div>
-        <div class="stat-item">
-          <span>Online agora:</span>
-          <span>12</span>
-        </div>
-      </div>
     </div>
-  </div>
 </div>
-
-<!-- Modal para novo post -->
-<div class="modal" id="newPostModal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2><i class="fas fa-edit"></i> Novo Tópico</h2>
-      <button class="close-modal" onclick="closeNewPostModal()">&times;</button>
-    </div>
-    <form th:action="@{/forum/novo-topico}" method="post" id="newPostForm">
-      <input type="hidden" name="email" th:value="${usuario.email}">
-
-      <div class="form-group">
-        <label for="postCategory">Categoria</label>
-        <div class="input-with-icon">
-          <i class="fas fa-folder"></i>
-          <select id="postCategory" name="categoria" required>
-            <option value="">Selecione uma categoria</option>
-            <option value="alimentacao">Alimentação</option>
-            <option value="saude">Saúde</option>
-            <option value="adestramento">Adestramento</option>
-            <option value="cuidados">Cuidados Diários</option>
-            <option value="veterinaria">Veterinária</option>
-            <option value="vacinas">Vacinas</option>
-            <option value="outros">Outros</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="postTitle">Título</label>
-        <div class="input-with-icon">
-          <i class="fas fa-heading"></i>
-          <input type="text" id="postTitle" name="titulo" required placeholder="Digite o título do seu tópico">
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="postContent">Conteúdo</label>
-        <div class="input-with-icon">
-          <i class="fas fa-pen"></i>
-          <textarea id="postContent" name="conteudo" required placeholder="Descreva sua dúvida, experiência ou informação que gostaria de compartilhar..."></textarea>
-        </div>
-      </div>
-
-      <button type="submit" class="btn-submit">
-        <i class="fas fa-paper-plane"></i> Publicar Tópico
-      </button>
-    </form>
-  </div>
-</div>
-
-<script>
-  // Funções para abrir e fechar o modal de novo post
-  function openNewPostModal() {
-      document.getElementById('newPostModal').style.display = 'flex';
-  }
-
-  function closeNewPostModal() {
-      document.getElementById('newPostModal').style.display = 'none';
-  }
-
-  // Fechar modal ao clicar fora dele
-  window.addEventListener('click', function(event) {
-      const modal = document.getElementById('newPostModal');
-      if (event.target === modal) {
-          closeNewPostModal();
-      }
-  });
-
-  // Validação do formulário de novo post
-  document.getElementById('newPostForm').addEventListener('submit', function(e) {
-      const title = document.getElementById('postTitle').value;
-      const content = document.getElementById('postContent').value;
-      const category = document.getElementById('postCategory').value;
-
-      if (!title || !content || !category) {
-          alert('Por favor, preencha todos os campos obrigatórios.');
-          e.preventDefault();
-          return;
-      }
-
-      // Se todas as validações passarem, o formulário será enviado normalmente
-  });
-
-  // Filtro de busca simples
-  document.querySelector('.search-box input').addEventListener('input', function(e) {
-      const searchTerm = e.target.value.toLowerCase();
-      const posts = document.querySelectorAll('.post-card');
-
-      posts.forEach(post => {
-          const title = post.querySelector('.post-title').textContent.toLowerCase();
-          const content = post.querySelector('.post-content').textContent.toLowerCase();
-
-          if (title.includes(searchTerm) || content.includes(searchTerm)) {
-              post.style.display = 'block';
-          } else {
-              post.style.display = 'none';
-          }
-      });
-  });
-
-  // Filtro por categoria
-  document.querySelectorAll('.category-item').forEach(item => {
-      item.addEventListener('click', function() {
-          // Remove a classe active de todos os itens
-          document.querySelectorAll('.category-item').forEach(i => {
-              i.classList.remove('active');
-          });
-
-          // Adiciona a classe active ao item clicado
-          this.classList.add('active');
-
-          // Aqui você implementaria a lógica para filtrar os posts por categoria
-          // Por enquanto, vamos apenas mostrar um alerta
-          const categoryName = this.textContent.trim();
-          alert(`Filtrando por: ${categoryName}`);
-      });
-  });
-</script>
 </body>
 </html>

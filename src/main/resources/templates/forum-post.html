@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${post.titulo} + ' - Fórum PetCare'">Título do Post - Fórum PetCare</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* (Seus estilos CSS permanecem os mesmos) */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body {
+            background-color: #f5f7fa;
+            padding: 20px;
+        }
+        .container { width: 100%; max-width: 1000px; margin: 0 auto; background-color: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); overflow: hidden; }
+        .header { background: linear-gradient(135deg, #2e7d32, #4caf50); color: white; padding: 25px 30px; display: flex; align-items: center; gap: 15px; }
+        .header i { font-size: 28px; }
+        .header h1 { font-size: 24px; font-weight: 600; }
+        .content { padding: 30px; }
+        .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #e8f5e9; }
+        .section-header i { color: #2e7d32; font-size: 20px; }
+        .section-header h2 { color: #2e7d32; font-size: 20px; font-weight: 600; }
+        .form-section { background-color: #f9f9f9; padding: 25px; border-radius: 10px; border: 1px solid #e0e0e0; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; color: #2e7d32; font-weight: 600; font-size: 15px; }
+        .input-with-icon { position: relative; }
+        .input-with-icon i { position: absolute; left: 15px; top: 18px; color: #2e7d32; }
+        .input-with-icon textarea { width: 100%; padding: 15px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; min-height: 100px; }
+        .btn-submit { background-color: #2e7d32; color: white; border: none; padding: 12px 25px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; transition: background-color 0.3s; display: flex; align-items: center; gap: 8px; }
+        .btn-submit:hover { background-color: #4caf50; }
+        .post-original { border: 1px solid #e0e0e0; border-left: 5px solid #2e7d32; border-radius: 10px; padding: 25px; margin-bottom: 30px; background: #fdfdfd; }
+        .post-title { font-size: 24px; font-weight: 600; color: #333; margin-bottom: 10px; }
+        .post-meta { font-size: 14px; color: #666; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #f0f0f0; }
+        .post-meta span { font-weight: 500; color: #2e7d32; }
+        .post-content { font-size: 16px; line-height: 1.7; color: #444; white-space: pre-wrap; }
+        .resposta-card { border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; margin-bottom: 20px; background: #fff; position: relative; }
+        .resposta-meta { font-size: 14px; color: #666; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #f0f0f0; }
+        .resposta-meta span { font-weight: 500; color: #333; }
+        .resposta-content { font-size: 16px; line-height: 1.6; color: #555; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <i class="fas fa-comments"></i>
+        <h1>Fórum </h1>
+    </div>
+
+    <div class="content">
+        <div class="post-original">
+            <h2 class="post-title" th:text="${post.titulo}"></h2>
+            <p class="post-meta">
+                Postado por <span th:text="${post.autor.nome}"></span> em
+                <span th:utext="${#temporals.format(post.dataCriacao, 'dd/MM/yyyy') + ' &agrave;s ' + #temporals.format(post.dataCriacao, 'HH:mm')}"></span>
+            </p>
+            <div class="post-content" th:text="${post.conteudo}"></div>
+        </div>
+
+        <div class="respostas-section">
+            <div class="section-header">
+                <i class="fas fa-reply"></i>
+                <h2 th:text="${#lists.size(post.respostas)} + ' Respostas'">Respostas</h2>
+            </div>
+
+            <div th:if="${post.respostas.empty}">
+                <p style="text-align: center; color: #666; margin-bottom: 20px;">Ainda não há respostas. Seja o primeiro a ajudar!</p>
+            </div>
+
+            <div th:each="resposta : ${post.respostas}" class="resposta-card">
+                <p class="resposta-meta">
+                    <span th:text="${resposta.autor.nome}"></span> respondeu em
+                    <span th:utext="${#temporals.format(resposta.dataCriacao, 'dd/MM/yyyy') + ' &agrave;s ' + #temporals.format(resposta.dataCriacao, 'HH:mm')}"></span>
+                </p>
+                <div class="resposta-content" th:text="${resposta.conteudo}"></div>
+            </div>
+        </div>
+
+        <div class="form-section" style="margin-top: 30px;">
+            <div class="section-header">
+                <i class="fas fa-pencil-alt"></i>
+                <h2>Deixe sua Resposta</h2>
+            </div>
+            <form th:action="@{/forum/post/{postId}/responder(postId=${post.id})}" method="post">
+                <div class="form-group">
+                    <label for="conteudo">Sua resposta</label>
+                    <div class="input-with-icon">
+                        <textarea id="conteudo" name="conteudo" placeholder="Escreva sua resposta para ajudar..." required></textarea>
+                    </div>
+                </div>
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-reply"></i> Responder
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,64 +1,81 @@
 package com.petcare.controller;
 
-import com.petcare.model.*;
-import com.petcare.repository.*;
-import lombok.RequiredArgsConstructor;
+import com.petcare.model.Pet;
+import com.petcare.model.Usuario;
+import com.petcare.model.Vacina;
+import com.petcare.repository.PetRepository;
+import com.petcare.repository.UsuarioRepository;
+import com.petcare.repository.VacinaRepository;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.security.Principal; // <-- IMPORT NECESSÁRIO
 import java.time.LocalDate;
 import java.util.List;
 
 @Controller
-@RequiredArgsConstructor
 public class VacinaController {
+
     private final VacinaRepository vacinaRepository;
     private final PetRepository petRepository;
     private final UsuarioRepository usuarioRepository;
 
+    public VacinaController(VacinaRepository vacinaRepository,
+                            PetRepository petRepository,
+                            UsuarioRepository usuarioRepository) {
+        this.vacinaRepository = vacinaRepository;
+        this.petRepository = petRepository;
+        this.usuarioRepository = usuarioRepository;
+    }
+
     @GetMapping("/vacinas")
-    public String listarVacinas(@RequestParam String email, Model model) {
-        // Verifica se o usuário existe
+    public String listarVacinas(Principal principal, Model model) {
+        String email = principal.getName();
         Usuario usuario = usuarioRepository.findByEmail(email);
+
         if (usuario == null) {
             return "redirect:/login";
         }
 
-        // Carrega os pets com suas vacinas
-        List<Pet> pets = petRepository.findByDono_Id(usuario.getId());
-
-        // Debug: Verifique no console se os dados estão sendo carregados
-        System.out.println("Pets encontrados: " + pets.size());
-        pets.forEach(pet -> {
-            System.out.println("Pet: " + pet.getNome() + " - Vacinas: " +
-                    (pet.getVacinas() != null ? pet.getVacinas().size() : 0));
-        });
+        List<Pet> pets = petRepository.findByDono(usuario);
 
         model.addAttribute("pets", pets);
         model.addAttribute("usuario", usuario);
-        return "vacinas";
+
+        return "vacinas"; // Página vacinas.html
     }
 
     @PostMapping("/vacinas/registrar")
-    public String registrarVacina(
-            @RequestParam String email,
-            @RequestParam Long petId,
-            @RequestParam String nomeVacina,
-            @RequestParam LocalDate dataAplicacao,
-            @RequestParam(required = false) LocalDate proximaDose
-    ) {
-        Pet pet = petRepository.findById(petId).orElseThrow();
+    public String registrarVacina(Principal principal,
+                                  @RequestParam Long petId,
+                                  @RequestParam String nomeVacina,
+                                  @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataAplicacao,
+                                  @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate proximaDose) {
 
-        Vacina vacina = Vacina.builder()
-                .nome(nomeVacina)
-                .dataAplicacao(dataAplicacao)
-                .proximaDose(proximaDose)
-                .completa(proximaDose == null)
-                .pet(pet)
-                .build();
+        try {
+            Usuario usuario = usuarioRepository.findByEmail(principal.getName());
+            Pet pet = petRepository.findById(petId).orElseThrow(() -> new RuntimeException("Pet não encontrado"));
 
-        vacinaRepository.save(vacina);
-        return "redirect:/vacinas?email=" + email;
+            if (usuario == null || !pet.getDono().getId().equals(usuario.getId())) {
+                return "redirect:/vacinas?error=Este pet não pertence a você.";
+            }
+
+            Vacina novaVacina = new Vacina();
+            novaVacina.setNome(nomeVacina);
+            novaVacina.setDataAplicacao(dataAplicacao);
+            novaVacina.setProximaDose(proximaDose); // Será null se não for enviado
+            novaVacina.setPet(pet);
+
+            vacinaRepository.save(novaVacina);
+
+            return "redirect:/vacinas?success=Vacina registrada com sucesso!";
+
+        } catch (Exception e) {
+            return "redirect:/vacinas?error=Não foi possível registrar a vacina.";
+        }
     }
 }
